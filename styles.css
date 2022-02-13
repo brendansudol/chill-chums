@@ -1,0 +1,61 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, Courier, monospace;
+  font-size: 12px;
+  text-align: center;
+}
+
+h1 {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  font-size: 2rem;
+}
+
+a {
+  color: #000;
+}
+
+.flex {
+  display: flex;
+  gap: 10px;
+}
+
+.container {
+  max-width: 500px;
+  margin: 1rem auto;
+  padding: 1rem;
+}
+
+.canvas-container {
+  height: 0;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+
+.canvas-1x1 {
+  padding-bottom: 100%;
+}
+
+.canvas,
+.p5Canvas {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100% !important;
+  height: 100% !important;
+  z-index: 100;
+}
+
+.me {
+  margin-left: auto;
+}
+
+@media (min-width: 1000px) {
+  body {
+    font-size: 14px;
+  }
+}
