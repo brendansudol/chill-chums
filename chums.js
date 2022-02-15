@@ -30,6 +30,7 @@ const colorPalettes = [
   ["#114038", "#1c7ac6", "#f0684a", "#49a56c"],
   ["#ea4a5c", "#e8cc51", "#0a0100", "#414fc2", "#e8e2d6"],
   ["#88b8c6", "#ead1d3", "#eed47b", "#e8e3de"],
+  ["#091540", "#7792ff", "#abd2fa", "#3d518c"],
 ];
 
 const eyeStyles = [
