@@ -1,51 +1,24 @@
 const colorPalettes = [
   ["#5579f5", "#261745", "#bf9bf2", "#ee6130"],
-  ["#f4af06", "#0ad896", "#9e5ff4", "#f40275"],
-  ["#f48c6d", "#0023cb", "#dcf305", "#d5dae8"],
   ["#a5ceba", "#f37d6b", "#f5d87e", "#a67fb2"],
-  ["#f1ebe0", "#f4b82f", "#f45048", "#4c0a40"],
   ["#1a2061", "#245bdb", "#44e3c4", "#f4bf52"],
-  ["#e7e6e4", "#245bdb", "#44e3c4", "#f4bf52"],
   ["#ec643b", "#56b7ab", "#f8cb57", "#1f1e43"],
-  ["#29368f", "#e9697b", "#1b164d", "#f7d996"],
-  ["#fc3032", "#fed530", "#33c3fb", "#ff7bac", "#fda929"],
   ["#122438", "#dd672e", "#87c7ca", "#ebebeb"],
-  ["#f1594a", "#f5b50e", "#14a160", "#2969de", "#885fa4"],
-  ["#004996", "#567bae", "#ff4c48", "#ffbcb3"],
-  ["#ff5500", "#f4c145", "#144714", "#2f04fc", "#e276af"],
   ["#ffce49", "#ede8dc", "#ff5736", "#ff99b4"],
-  ["#253852", "#51222f", "#b53435", "#ecbb51"],
-  ["#613f9c", "#ef0327", "#02b199", "#f5f4f6"],
   ["#ecd0b7", "#f55d47", "#1b2d76", "#0458db"],
-  ["#ff59a5", "#ff6507", "#328cb7", "#fedc26"],
-  ["#263069", "#ac1c62", "#f25757", "#f5c402"],
-  ["#88cbd4", "#ebb1b2", "#dcd0b6", "#f2715d"],
-  ["#f54200", "#f558b0", "#2565f4", "#05a84b", "#000000"],
-  ["#038ff4", "#ebd9eb", "#034ed0", "#f56a01", "#20b09d"],
-  ["#0bdc96", "#f4b700", "#f5017c", "#f5f306"],
-  ["#cb3831", "#f1ad13", "#0965aa", "#e4d4c3"],
-  ["#00ca48", "#f58137", "#dcd032", "#f493cd"],
   ["#5041ac", "#07c2d3", "#8344de", "#f4377b"],
   ["#0a7e8d", "#0b5467", "#f3ba02", "#f04819"],
-  ["#114038", "#1c7ac6", "#f0684a", "#49a56c"],
-  ["#ea4a5c", "#e8cc51", "#0a0100", "#414fc2", "#e8e2d6"],
-  ["#88b8c6", "#ead1d3", "#eed47b", "#e8e3de"],
-  ["#091540", "#7792ff", "#abd2fa", "#3d518c"],
+  ["#091540", "#7692ff", "#abd2fa", "#3d518c"],
 ];
 
 const eyeStyles = [
   "HALVES",
   "HALVES_AND_EYE",
   "OUTLINE",
-  "HALF_OUTLINE",
   "OUTLINE_AND_HALF_FILL",
   "TARGET",
-  "XLINE",
-  "YLINE",
   "IN_SQUARE",
   "EYE_WANDER",
-  "WILD",
-  "PIECE_MISSING",
 ];
 
 const face = { pad: 0.2, eye: 0.26, mouth: 0.6 };
@@ -133,15 +106,6 @@ function drawEye({ cx, cy, d, colors }) {
       break;
     }
 
-    case "HALF_OUTLINE": {
-      const theta = equalChoice([0, PI * 0.5, PI, PI * 1.5]);
-      rc.circle(cx, cy, d, opts(c1));
-      rc.circle(cx, cy, d / 2, opts(c2));
-      rc.arc(cx, cy, d, d, theta, PI + theta, true, opts(c2));
-
-      break;
-    }
-
     case "OUTLINE_AND_HALF_FILL": {
       const theta = equalChoice([0, PI]);
       rc.circle(cx, cy, d, opts(c1));
@@ -158,22 +122,6 @@ function drawEye({ cx, cy, d, colors }) {
       break;
     }
 
-    case "XLINE": {
-      const thickness = d / 8;
-      rc.circle(cx, cy, d, opts(c1));
-      rc.rectangle(cx - d / 2, cy - thickness / 2, d, thickness, opts(equalChoice([c2, c3])));
-
-      break;
-    }
-
-    case "YLINE": {
-      const thickness = d / 8;
-      rc.circle(cx, cy, d, opts(c1));
-      rc.rectangle(cx - thickness / 2, cy - d / 2, thickness, d, opts(equalChoice([c2, c3])));
-
-      break;
-    }
-
     case "IN_SQUARE": {
       rc.rectangle(cx - d / 2, cy - d / 2, d, d, opts(c2));
       rc.circle(cx, cy, d * 0.6, opts(c1));
@@ -184,25 +132,6 @@ function drawEye({ cx, cy, d, colors }) {
     case "EYE_WANDER": {
       rc.circle(cx, cy, d, opts(c1));
       rc.circle(cx + range(-d / 5, d / 5), cy + range(-d / 5, d / 5), d / 4, opts(c2));
-
-      break;
-    }
-
-    case "WILD": {
-      const theta = equalChoice([0, PI * 0.5, PI, PI * 1.5]);
-      const scale = 2 / 3;
-      rc.circle(cx, cy, d, opts(c1));
-      rc.arc(cx, cy, d, d, theta, PI + theta, true, opts(c2));
-      rc.arc(cx, cy, d * scale, d * scale, theta, PI + theta, true, opts(c1));
-      rc.arc(cx, cy, d * scale, d * scale, PI + theta, PI * 2 + theta, true, opts(c2));
-
-      break;
-    }
-
-    case "PIECE_MISSING": {
-      const theta = range(0, PI * 2);
-      rc.circle(cx, cy, d, opts(c2));
-      rc.arc(cx, cy, d, d, theta, PI * range(1, 1.5) + theta, true, opts(c1));
 
       break;
     }
@@ -283,13 +212,12 @@ function refreshInputs() {
   inputs = {
     isSketchy: odds(0.33),
     sketchStyle: equalChoice(["hachure", "zigzag", "dots", "cross-hatch"]),
-    hasUniformStyle: true,
     color: equalChoice(colorPalettes),
   };
 }
 
 function opts(fill) {
-  const { isSketchy, sketchStyle, hasUniformStyle } = inputs;
+  const { isSketchy, sketchStyle } = inputs;
 
   if (!isSketchy) {
     return {
@@ -300,10 +228,6 @@ function opts(fill) {
     };
   }
 
-  const fillStyle = hasUniformStyle
-    ? sketchStyle
-    : equalChoice(["hachure", "zigzag", "dots", "cross-hatch"]);
-
   const base = xy(0.008);
   const detailsByStyle = {
     hachure: { weight: 1, gap: 1.2 },
@@ -312,6 +236,7 @@ function opts(fill) {
     "cross-hatch": { weight: 1, gap: 1.75 },
   };
 
+  const fillStyle = sketchStyle;
   const details = detailsByStyle[fillStyle] || { weight: 1, gap: 1 };
   const fillWeight = details.weight * base;
   const hachureGap = details.gap * base;
@@ -353,16 +278,9 @@ function range(min, max) {
   return random() * (max - min) + min;
 }
 
-function shuffle(arrayIn) {
-  let array = [...arrayIn];
-  let [m, t, i] = [array.length];
-  while (m) {
-    i = Math.floor(rand() * m--);
-    t = array[m];
-    array[m] = array[i];
-    array[i] = t;
-  }
-  return array;
+function equalChoice(values) {
+  const weight = 1 / values.length;
+  return weightedChoice(values.map((value) => [value, weight]));
 }
 
 function weightedChoice(items) {
@@ -373,11 +291,6 @@ function weightedChoice(items) {
     if (rando < seen) return value;
   }
   return items[items.length - 1][0]; // last value
-}
-
-function equalChoice(values) {
-  const weight = 1 / values.length;
-  return weightedChoice(values.map((value) => [value, weight]));
 }
 
 function isColorDark(hex, threshold = 50) {
